@@ -5,7 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.tngtech.jgiven.annotation.*;
+import com.tngtech.jgiven.annotation.As;
+import com.tngtech.jgiven.annotation.ExpectedScenarioState;
+import com.tngtech.jgiven.annotation.ProvidedScenarioState;
+import com.tngtech.jgiven.annotation.SingleQuoted;
 import com.tngtech.jgiven.integration.spring.JGivenStage;
 
 @JGivenStage

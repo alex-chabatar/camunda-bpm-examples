@@ -28,7 +28,7 @@ public class RetryIncident implements JavaDelegate {
     log.info("Retry incident {}", incidentId);
 
     var incident = workflowHelper.getIncident(incidentId);
-    
+
     if (incident != null) {
 
       // 1. retry

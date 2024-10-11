@@ -2,7 +2,8 @@ package org.camunda.bpm.examples.incidents.resolver.process.scenario;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 import org.camunda.bpm.engine.history.HistoricIncident;
 import org.camunda.bpm.engine.runtime.Incident;

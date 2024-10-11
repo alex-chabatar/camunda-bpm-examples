@@ -13,6 +13,7 @@ import org.camunda.bpm.engine.externaltask.LockedExternalTask;
 import org.camunda.bpm.engine.history.*;
 import org.camunda.bpm.engine.impl.util.ClockUtil;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.repository.ProcessDefinitionQuery;
 import org.camunda.bpm.engine.runtime.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -37,15 +38,13 @@ public class WorkflowHelper {
   // -- Process Definitions
 
   public List<ProcessDefinition> getProcessDefinitions() {
-    return repositoryService
-        .createProcessDefinitionQuery()
+    return processDefinitionQuery()
         .latestVersion()
         .list();
   }
 
   public ProcessDefinition getProcessDefinition(String processDefinitionKey) {
-    return repositoryService
-        .createProcessDefinitionQuery()
+    return processDefinitionQuery()
         .processDefinitionKey(processDefinitionKey)
         .latestVersion()
         .singleResult();
@@ -53,12 +52,15 @@ public class WorkflowHelper {
 
   public ProcessDefinition getProcessDefinitionById(String processDefinitionId) {
     if (!ObjectUtils.isEmpty(processDefinitionId)) {
-      return repositoryService
-          .createProcessDefinitionQuery()
+      return processDefinitionQuery()
           .processDefinitionId(processDefinitionId)
           .singleResult();
     }
     return null;
+  }
+
+  private ProcessDefinitionQuery processDefinitionQuery() {
+    return repositoryService.createProcessDefinitionQuery();
   }
 
   public String getProcessDefinitionKeyById(String processDefinitionId) {
@@ -108,14 +110,12 @@ public class WorkflowHelper {
 
   private ProcessInstantiationBuilder createProcessInstanceBuilder(String processDefinitionKey, String businessKey,
       Map<String, Object> values) {
-    return createProcessInstanceBuilder(processDefinitionKey, values)
-        .businessKey(businessKey);
+    return createProcessInstanceBuilder(processDefinitionKey, values).businessKey(businessKey);
   }
 
   private ProcessInstantiationBuilder createProcessInstanceBuilder(String processDefinitionKey,
       Map<String, Object> values) {
-    return runtimeService.createProcessInstanceByKey(processDefinitionKey)
-        .setVariables(values);
+    return runtimeService.createProcessInstanceByKey(processDefinitionKey).setVariables(values);
   }
 
   public List<HistoricProcessInstance> getHistoricProcessInstances() {
@@ -139,7 +139,6 @@ public class WorkflowHelper {
     variableInstanceQuery()
         .executionIdIn(executionId)
         .list()
-        .stream()
         .forEach(item -> variables.put(item.getName(), item.getValue()));
     return variables;
   }
@@ -153,7 +152,6 @@ public class WorkflowHelper {
     historyService.createHistoricVariableInstanceQuery()
         .executionIdIn(executionId)
         .list()
-        .stream()
         .forEach(item -> variables.put(item.getName(), item.getValue()));
     return variables;
   }
@@ -184,8 +182,7 @@ public class WorkflowHelper {
   // -- External tasks
 
   public List<ExternalTask> getExternalTasks() {
-    return externalTaskQuery()
-        .list();
+    return externalTaskQuery().list();
   }
 
   public ExternalTask getExternalTask(String externalTaskId) {
@@ -216,7 +213,7 @@ public class WorkflowHelper {
   }
 
   public void completeExternalTasksWithFailure(String topic, String errorMessage, int retries, long retryTimeout) {
-    String workerId = workerId(topic);
+    var workerId = workerId(topic);
     fetchAndLock(topic, workerId)
         .forEach(task -> completeExternalTaskWithFailure(task.getId(), workerId, errorMessage, retries, retryTimeout));
   }
