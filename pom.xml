@@ -45,6 +45,7 @@
 
   <modules>
     <module>incidents-resolver</module>
+    <module>process-instance-migration</module>
   </modules>
 
   <dependencyManagement>

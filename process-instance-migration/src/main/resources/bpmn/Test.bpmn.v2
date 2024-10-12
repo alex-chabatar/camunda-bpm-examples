@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1atcwm8" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.28.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_1j1rpr7">
+    <bpmn:participant id="Participant_TestProcess" name="Test Process" processRef="TestProcess" />
+  </bpmn:collaboration>
+  <bpmn:process id="TestProcess" name="Test Process" isExecutable="true">
+    <bpmn:startEvent id="Start_TestProcess">
+      <bpmn:outgoing>Flow_1g2f58r</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0j8avqt" messageRef="Message_3fus354" />
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Task_ProcessTestData" name="Process Test Data" camunda:asyncBefore="true" camunda:delegateExpression="${processTestData}">
+      <bpmn:incoming>Flow_1g2f58r</bpmn:incoming>
+      <bpmn:outgoing>Flow_107wfcv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="UserTask_ReviewResults" name="Review Results">
+      <bpmn:incoming>Flow_107wfcv</bpmn:incoming>
+      <bpmn:outgoing>Flow_05t8ovx</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1g2f58r" sourceRef="Start_TestProcess" targetRef="Task_ProcessTestData" />
+    <bpmn:sequenceFlow id="Flow_107wfcv" sourceRef="Task_ProcessTestData" targetRef="UserTask_ReviewResults" />
+    <bpmn:sequenceFlow id="Flow_05t8ovx" sourceRef="UserTask_ReviewResults" targetRef="Gateway_1k6dw0z" />
+    <bpmn:endEvent id="End_TestProcess">
+      <bpmn:incoming>Flow_10r3c93</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_10r3c93" name="yes" sourceRef="Gateway_1k6dw0z" targetRef="End_TestProcess" />
+    <bpmn:exclusiveGateway id="Gateway_1k6dw0z" name="Approved?" default="Flow_10r3c93">
+      <bpmn:incoming>Flow_05t8ovx</bpmn:incoming>
+      <bpmn:outgoing>Flow_10r3c93</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ekvebf</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1ekvebf" name="no" sourceRef="Gateway_1k6dw0z" targetRef="End_ReviewFailed">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="End_ReviewFailed">
+      <bpmn:incoming>Flow_1ekvebf</bpmn:incoming>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1k934d3" errorRef="Error_1sloemk" />
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_3fus354" name="TestProcess" />
+  <bpmn:error id="Error_1sloemk" name="review-failed" errorCode="review-failed" camunda:errorMessage="review-failed" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1j1rpr7">
+      <bpmndi:BPMNShape id="Participant_030dyx1_di" bpmnElement="Participant_TestProcess" isHorizontal="true">
+        <dc:Bounds x="161" y="80" width="719" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0nomt6s_di" bpmnElement="Start_TestProcess">
+        <dc:Bounds x="233" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04j5o16_di" bpmnElement="Task_ProcessTestData">
+        <dc:Bounds x="321" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0k82ls7_di" bpmnElement="UserTask_ReviewResults">
+        <dc:Bounds x="481" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0rrthlv_di" bpmnElement="End_TestProcess">
+        <dc:Bounds x="792" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1k6dw0z_di" bpmnElement="Gateway_1k6dw0z" isMarkerVisible="true">
+        <dc:Bounds x="635" y="175" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="633" y="145" width="54" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1wbgize_di" bpmnElement="End_ReviewFailed">
+        <dc:Bounds x="792" y="262" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1g2f58r_di" bpmnElement="Flow_1g2f58r">
+        <di:waypoint x="269" y="200" />
+        <di:waypoint x="321" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_107wfcv_di" bpmnElement="Flow_107wfcv">
+        <di:waypoint x="421" y="200" />
+        <di:waypoint x="481" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05t8ovx_di" bpmnElement="Flow_05t8ovx">
+        <di:waypoint x="581" y="200" />
+        <di:waypoint x="635" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10r3c93_di" bpmnElement="Flow_10r3c93">
+        <di:waypoint x="685" y="200" />
+        <di:waypoint x="792" y="200" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="730" y="182" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ekvebf_di" bpmnElement="Flow_1ekvebf">
+        <di:waypoint x="660" y="225" />
+        <di:waypoint x="660" y="280" />
+        <di:waypoint x="792" y="280" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="669" y="250" width="13" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
