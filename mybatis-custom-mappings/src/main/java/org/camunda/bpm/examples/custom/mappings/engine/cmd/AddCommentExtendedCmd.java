@@ -39,7 +39,7 @@ public class AddCommentExtendedCmd extends AddCommentCmd {
     comment.setUserId(userId);
     comment.setType(CommentEntity.TYPE_COMMENT);
     comment.setTime(
-        time != null ? time : ClockUtil.getCurrentTime()); // statt comment.setTime(ClockUtil.getCurrentTime());
+        time != null ? time : ClockUtil.getCurrentTime());
     comment.setTaskId(taskId);
     comment.setProcessInstanceId(processInstanceId);
     comment.setAction(Event.ACTION_ADD_COMMENT);
