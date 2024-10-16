@@ -1,0 +1,43 @@
+camunda.bpm:
+  database:
+    # managed by liquibase
+    schema-update: true
+  webapp:
+    index-redirect-enabled: true
+  admin-user:
+    id: admin
+    password: admin
+  filter:
+    create: All Tasks
+  authorization:
+    enabled: true
+  metrics:
+    enabled: true
+    db-reporter-activate: true
+spring:
+  jackson:
+    default-property-inclusion: non_null
+  liquibase:
+    # camunda changesets
+    change-log: db/changelog.xml
+management:
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+      group:
+        custom:
+          show-components: always
+          show-details: ALWAYS
+    prometheus:
+      enabled: true
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: health,metrics,info,ready,prometheus
+  prometheus:
+    metrics:
+      export:
+        enabled: true

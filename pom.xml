@@ -45,6 +45,7 @@
 
   <modules>
     <module>incidents-resolver</module>
+    <module>liquibase-schema</module>
     <module>mybatis-custom-mappings</module>
     <module>process-instance-migration</module>
   </modules>
