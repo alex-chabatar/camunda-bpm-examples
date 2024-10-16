@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_19x9i12" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.28.0">
+  <bpmn:collaboration id="Collaboration_1arg9up">
+    <bpmn:participant id="Participant_TestProcess" name="Test Process" processRef="TestProcess" />
+  </bpmn:collaboration>
+  <bpmn:process id="TestProcess" name="Test Process" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_18oum6u">
+      <bpmn:lane id="Lane_0i97ecv">
+        <bpmn:flowNodeRef>UserTask_ProcessData</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Start_Process</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Process</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:userTask id="UserTask_ProcessData" name="Process data" camunda:asyncBefore="true" camunda:formKey="vorgangBearbeiten.xhtml">
+      <bpmn:incoming>Flow_1pnj7kx</bpmn:incoming>
+      <bpmn:outgoing>Flow_1szhbns</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="Start_Process">
+      <bpmn:outgoing>Flow_1pnj7kx</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1pnj7kx" sourceRef="Start_Process" targetRef="UserTask_ProcessData" />
+    <bpmn:endEvent id="End_Process">
+      <bpmn:incoming>Flow_1szhbns</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1szhbns" sourceRef="UserTask_ProcessData" targetRef="End_Process" />
+  </bpmn:process>
+  <bpmn:message id="Message_1hydnyn" name="task-a-msg" />
+  <bpmn:message id="Message_0jpcmk8" name="task-b-msg" />
+  <bpmn:message id="Message_01ia3vj" name="hauptaufgabe-neu-zuordnen-msg" />
+  <bpmn:message id="Message_1uxitzh" name="task-c-msg" />
+  <bpmn:message id="Message_1y8x1rx" name="vorgang-unlock-msg" />
+  <bpmn:message id="Message_0mgg758" name="vorgang-lock-msg" />
+  <bpmn:message id="Message_0zmrdvl" name="vorgangstyp-aendern-msg" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1arg9up">
+      <bpmndi:BPMNShape id="Participant_1lvtlsc_di" bpmnElement="Participant_TestProcess" isHorizontal="true">
+        <dc:Bounds x="160" y="40" width="360" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0i97ecv_di" bpmnElement="Lane_0i97ecv" isHorizontal="true">
+        <dc:Bounds x="190" y="40" width="330" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0tmwcml_di" bpmnElement="UserTask_ProcessData">
+        <dc:Bounds x="300" y="70" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="Start_Process">
+        <dc:Bounds x="222" y="92" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_08hdn3e_di" bpmnElement="End_Process">
+        <dc:Bounds x="442" y="92" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1pnj7kx_di" bpmnElement="Flow_1pnj7kx">
+        <di:waypoint x="258" y="110" />
+        <di:waypoint x="300" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1szhbns_di" bpmnElement="Flow_1szhbns">
+        <di:waypoint x="400" y="110" />
+        <di:waypoint x="442" y="110" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

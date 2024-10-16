@@ -45,6 +45,7 @@
 
   <modules>
     <module>incidents-resolver</module>
+    <module>mybatis-custom-mappings</module>
     <module>process-instance-migration</module>
   </modules>
 
@@ -125,7 +126,7 @@
           </executions>
           <configuration>
             <format>html</format>
-            <outputDirectory>${maven.multiModuleProjectDirectory}/target/jgiven-reports/html</outputDirectory>
+            <outputDirectory>target/jgiven-reports/html</outputDirectory>
           </configuration>
         </plugin>
 
