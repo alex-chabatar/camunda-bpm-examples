@@ -4,32 +4,21 @@ import static org.mockito.Mockito.validateMockitoUsage;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 import org.camunda.bpm.examples.incidents.resolver.delegate.ServiceTaskWithIncident;
-import org.camunda.bpm.examples.incidents.resolver.process.scenario.IncidentsGiven;
-import org.camunda.bpm.examples.incidents.resolver.process.scenario.IncidentsThen;
-import org.camunda.bpm.examples.incidents.resolver.process.scenario.IncidentsWhen;
+import org.camunda.bpm.examples.incidents.resolver.process.scenario.*;
 import org.camunda.bpm.examples.incidents.resolver.service.TestService;
 import org.camunda.bpm.examples.incidents.resolver.spring.AbstractSpringTest;
-import org.camunda.bpm.examples.incidents.resolver.spring.configuration.ScenarioConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import com.tngtech.jgiven.integration.spring.JGivenSpringConfiguration;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SpringBootTest(classes = {
-    IncidentsResolverApp.class,
-    ScenarioConfiguration.class,
-    JGivenSpringConfiguration.class
-})
-public abstract class AbstractIncidentsTest extends AbstractSpringTest<IncidentsGiven, IncidentsWhen, IncidentsThen> {
+public abstract class AbstractIncidentsTest extends AbstractSpringTest<ProcessGiven<?>, ProcessWhen<?>, ProcessThen<?>> {
 
   protected static final String TEST_PROCESS = "TestProcess";
 
