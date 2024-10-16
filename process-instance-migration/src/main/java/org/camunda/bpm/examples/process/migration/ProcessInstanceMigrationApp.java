@@ -12,10 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @SpringBootApplication(scanBasePackages = "org.camunda.bpm.examples")
 @EnableProcessApplication
-public class CamundaApp {
+public class ProcessInstanceMigrationApp {
 
   public static void main(String... args) {
-    SpringApplication.run(CamundaApp.class, args);
+    SpringApplication.run(ProcessInstanceMigrationApp.class, args);
   }
 
   @EventListener
