@@ -2,7 +2,7 @@
 Camunda extension to provide the set of additional FEEL functions for DMN.
 
 ## Why
-Sometimes standard FEEL functions are not enough, therefore we need a way to define our own...
+* Sometimes standard FEEL functions are not enough, therefore we need a way to define our own...
 
 ## Functions (to be extended...)
 * `containsAnyOf`

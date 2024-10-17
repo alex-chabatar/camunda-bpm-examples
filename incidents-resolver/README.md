@@ -2,7 +2,7 @@
 
 Technical BPMN process to resolve [Camunda Incidents](https://docs.camunda.org/manual/latest/user-guide/process-engine/incidents/).
 
-Why?
+## Why
 * the external system could be not available (downtime) and after 3 retries there is an Incident
 * you don't want (or have time) to retry Incidents manually
 * this is just another Admin in your Team :-)

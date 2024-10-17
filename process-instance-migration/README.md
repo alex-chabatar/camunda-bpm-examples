@@ -2,14 +2,13 @@
 
 Camunda extension to schedule [Process Instance Migration](https://docs.camunda.org/manual/latest/user-guide/process-engine/process-instance-migration/) batch on application start.
 
-## Features
-
-* migrates process instances from Version `A` to Version `B` (`previous` to `actual`) for every process definition
-* uses a <mark>Default</mark> Migration Plan
-
 ## Why
 * there is no way to migrate process instances in Community Edition version from Cockpit, this feature is only available for [Enterprise Version](https://docs.camunda.org/manual/latest/webapps/cockpit/bpmn/process-instance-migration/).
 * even having Enterprise Version, most of the process definition changes could be processed by Default Migration - so it could be automated.
+
+## Features
+* migrates process instances from Version `A` to Version `B` (`previous` to `actual`) for every process definition
+* uses a <mark>Default</mark> Migration Plan
 
 ## BPMN Test Process
 Version 1: ![BPMN Process](docs/Test_V1.png)
