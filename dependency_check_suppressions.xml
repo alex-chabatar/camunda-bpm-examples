@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+  <suppress>
+    <!-- h2-2.1.214.jar -->
+    <cve>CVE-2022-45868</cve>
+  </suppress>
+</suppressions>

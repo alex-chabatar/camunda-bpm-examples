@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="definitions" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.28.0">
+  <decision id="Test_Decision_ContainsAnyOf" name="Test Decision containsAnyOf">
+    <decisionTable id="DecisionTable_Test" hitPolicy="FIRST">
+      <input id="Input_1" label="JSON list/array or String" biodi:width="296">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>input</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" name="result" typeRef="string" />
+      <rule id="DecisionRule_1">
+        <description>"A" or "B"</description>
+        <inputEntry id="UnaryTests_0x4umlg">
+          <text>containsAnyOf(?, "A", "B")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ae2zmu">
+          <text>1</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_2">
+        <description>"C" or "D"</description>
+        <inputEntry id="UnaryTests_0z73eir">
+          <text>containsAnyOf(?, "C", "D")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_082ruhp">
+          <text>2</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_3">
+        <description>1 or 2</description>
+        <inputEntry id="UnaryTests_0gr1hjj">
+          <text>containsAnyOf(?, 1, 2)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_09h15m0">
+          <text>3</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_Clearing">
+        <description>Clearing Rule...</description>
+        <inputEntry id="UnaryTests_0cso6ug">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ofvgdw">
+          <text></text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Test_Decision_ContainsAnyOf">
+        <dc:Bounds height="80" width="180" x="160" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

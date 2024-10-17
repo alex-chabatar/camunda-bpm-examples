@@ -44,6 +44,7 @@
   </prerequisites>
 
   <modules>
+    <module>dmn-custom-functions</module>
     <module>incidents-resolver</module>
     <module>liquibase-schema</module>
     <module>mybatis-custom-mappings</module>
