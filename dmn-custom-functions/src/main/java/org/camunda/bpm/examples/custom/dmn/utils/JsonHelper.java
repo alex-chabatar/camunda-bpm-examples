@@ -7,6 +7,7 @@ import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -42,6 +43,10 @@ public class JsonHelper {
 
   public static <T> T fromJSON(String json, Class<T> clazz) throws IOException {
     return MAPPER.readValue(json, clazz);
+  }
+
+  public static Map<String, Object> jsonToMap(String json) throws IOException {
+    return fromJSON(json, Map.class);
   }
 
   public static List<String> fromJSONArray(String jsonArray) throws IOException {

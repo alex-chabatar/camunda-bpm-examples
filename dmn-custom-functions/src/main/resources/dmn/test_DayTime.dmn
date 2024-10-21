@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0o6bvms" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.28.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <decision id="Test_Decision_DateTime" name="Test Decision dateTime">
+    <decisionTable id="DecisionTable_15jnqin" hitPolicy="FIRST">
+      <input id="Input_1" label="Day of Month">
+        <inputExpression id="InputExpression_1" typeRef="integer">
+          <text>day of month(workflow time())</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1oto1gn" label="Days since last email sent">
+        <inputExpression id="LiteralExpression_1vfklfr" typeRef="integer">
+          <text>days between(lastTimeEmailSent, workflow time())</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Send Reminder Email?" name="sendReminderEmail" typeRef="boolean" />
+      <output id="OutputClause_1yi524b" label="Email Type" name="emailType" typeRef="string" />
+      <rule id="DecisionRule_1uecz8x">
+        <description>Monthly email</description>
+        <inputEntry id="UnaryTests_1sgo71n">
+          <text>5</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0daie76">
+          <text>&gt;=30</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0dszhln">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0pgmt8c">
+          <text>"MONTHLY"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1g6yizf">
+        <description>Weekly email</description>
+        <inputEntry id="UnaryTests_1lbhe2o">
+          <text>1,8,15,22,29</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0iprekh">
+          <text>&gt;=7</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_14v0vrp">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1vr78wj">
+          <text>"WEEKLY"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0d3rpoi">
+        <description>Default</description>
+        <inputEntry id="UnaryTests_04j55q7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1c7jd5o">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0mtmu6g">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1qs8qig">
+          <text></text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Test_Decision_DateTime">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

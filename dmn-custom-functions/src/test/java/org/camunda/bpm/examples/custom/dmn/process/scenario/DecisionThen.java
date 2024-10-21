@@ -3,8 +3,6 @@ package org.camunda.bpm.examples.custom.dmn.process.scenario;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
 import org.camunda.bpm.engine.history.HistoricDecisionInstance;
@@ -93,7 +91,7 @@ public class DecisionThen<SELF extends DecisionThen<SELF>> extends AbstractProce
     if (ModelType.HISTORY.equals(getModelType())) {
       return with_value_in_history(key, value);
     }
-    Optional<Map<String, Object>> actual = decisionResult.getResultList().stream()
+    var actual = decisionResult.getResultList().stream()
         .filter(map -> map.containsKey(key))
         .findFirst();
     boolean result = (actual.isPresent() && actual.get().get(key).equals(value))
@@ -106,7 +104,7 @@ public class DecisionThen<SELF extends DecisionThen<SELF>> extends AbstractProce
 
   private SELF with_value_in_history(@SingleQuoted String key, @SingleQuoted Object value) {
     loadHistoryDecisions();
-    Optional<HistoricDecisionOutputInstance> actual = historyDecisions.stream()
+    var actual = historyDecisions.stream()
         .flatMap(historicDecision -> historicDecision.getOutputs().stream())
         .filter(output -> key.equals(output.getVariableName()))
         .filter(output -> value == null || value.equals(output.getValue()))
@@ -121,7 +119,7 @@ public class DecisionThen<SELF extends DecisionThen<SELF>> extends AbstractProce
   @As("with rule = $ruleId")
   public SELF with_rule(@SingleQuoted String ruleId) {
     loadHistoryDecisions();
-    List<String> rules = historyDecisions.stream()
+    var rules = historyDecisions.stream()
         .flatMap(historicDecision -> historicDecision.getOutputs().stream())
         .map(HistoricDecisionOutputInstance::getRuleId)
         .toList();

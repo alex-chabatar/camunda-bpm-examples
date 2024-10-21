@@ -7,15 +7,36 @@ Camunda extension to provide the set of additional FEEL functions for DMN.
 ## Functions (to be extended...)
 * `containsAnyOf`
 ```java
-/**
-* Format: containsAnyOf(input, entries...)
-* Supports as Input:
-* - json-array(list) String or Long/Integer as Element
-* - String - works as String.contains (substring)
-* entries... - comma separated
-*/
+// Format: containsAnyOf(input, entries...)
+// Supports as Input:
+// - json-array(list) String or Long/Integer as Element
+// - String - works as String.contains (substring)
+// entries... - comma separated
+// Return: true/false
 ```
-Example: ![DMN](docs/containsAnyOf.png)
+![DMN](docs/containsAnyOf.png)
+* `workflow time`
+```java
+// Format: workflow time()
+// Return: current workflow time, not current date/time (important for Unit-tests)
+```
+* `day of month`
+```java
+// Format: day of month(Optional: date/date-time)
+// Return: dayOfMonth
+```
+* `days between`
+```java
+// Format: days between(date/date-time, date/date-time)
+// Return: daysBetween
+```
+![DMN](docs/dateTime.png)
+* `json value`
+```java
+// Format: json value(?, 'key1')
+// Return: value object (String, Boolean, Integer, Long, Double, Date)
+```
+![DMN](docs/jsonValue.png)
 
 ## Test Reports
 
@@ -26,8 +47,10 @@ Test Class: org.camunda.bpm.examples.custom.dmn.process.DeploymentTest
  Ensure deployment
 
    Given a decision engine
-    Then 1 deployed DMN decision definition(s)
+    Then 3 deployed DMN decision definition(s)
          DMN decision definition of type 'Test_Decision_ContainsAnyOf'
+         DMN decision definition of type 'Test_Decision_DateTime'
+         DMN decision definition of type 'Test_Decision_Json'
 ```
 
 ### DMN Test:
@@ -63,6 +86,67 @@ Test Class: org.camunda.bpm.examples.custom.dmn.process.CustomFunctionTest
    | 12 | '["E","F"]'   | 'DecisionRule_Clearing' | 'null' | Success |
    | 13 | '[3,4,5]'     | 'DecisionRule_Clearing' | 'null' | Success |
    | 14 | 'EF'          | 'DecisionRule_Clearing' | 'null' | Success |
+
+
+ Date time
+
+   Given a decision engine
+         a decision input
+         with 'lastTimeEmailSent' = <value>
+    When set clock to <date>
+         evaluate decision 'Test_Decision_DateTime'
+    Then decision result
+         has 1 decision(s)
+         with 'sendReminderEmail' = <sendReminderEmail>
+         with 'emailType' = <emailType>
+
+  Cases:
+
+   | # | value                           | date                          | sendReminderEmail | emailType | Status  |
+   +---+---------------------------------+-------------------------------+-------------------+-----------+---------+
+   | 1 | 'Tue Sep 24 10:00:00 CEST 2024' | Tue Oct 01 10:00:00 CEST 2024 | 'true'            | 'WEEKLY'  | Success |
+   | 2 | 'Mon Sep 30 10:00:00 CEST 2024' | Tue Oct 08 10:00:00 CEST 2024 | 'true'            | 'WEEKLY'  | Success |
+   | 3 | 'Sun Oct 06 10:00:00 CEST 2024' | Tue Oct 15 10:00:00 CEST 2024 | 'true'            | 'WEEKLY'  | Success |
+   | 4 | 'Sat Oct 12 10:00:00 CEST 2024' | Tue Oct 22 10:00:00 CEST 2024 | 'true'            | 'WEEKLY'  | Success |
+   | 5 | 'Fri Oct 18 10:00:00 CEST 2024' | Tue Oct 29 10:00:00 CET 2024  | 'true'            | 'WEEKLY'  | Success |
+   | 6 | 'Thu Sep 05 10:00:00 CEST 2024' | Sat Oct 05 10:00:00 CEST 2024 | 'true'            | 'MONTHLY' | Success |
+   | 7 | 'Sat Oct 05 10:00:00 CEST 2024' | Sun Oct 06 10:00:00 CEST 2024 | 'false'           | 'null'    | Success |
+
+
+ Json value
+
+   Given a decision engine
+         a decision input
+         with 'variables' = <value>
+         with 'priority' = <priority>
+    When evaluate decision 'Test_Decision_Json'
+    Then decision result
+         has 1 decision(s)
+         with 'action' = <action>
+
+  Cases:
+
+   | # | value                   | priority | action              | Status  |
+   +---+-------------------------+----------+---------------------+---------+
+   | 1 | '{                      | 'NORMAL' | 'START_NEW_PROCESS' | Success |
+   |   |   "customerId" : "123", |          |                     |         |
+   |   |   "projectId" : "P1"    |          |                     |         |
+   |   | }'                      |          |                     |         |
+   | 2 | '{                      | 'NORMAL' | 'PUBSUB'            | Success |
+   |   |   "mmse" : 25,          |          |                     |         |
+   |   |   "projectId" : "P2",   |          |                     |         |
+   |   |   "customerId" : "123"  |          |                     |         |
+   |   | }'                      |          |                     |         |
+   | 3 | '{                      | 'HIGH'   | 'EMAIL_AND_PUBSUB'  | Success |
+   |   |   "mmse" : 20,          |          |                     |         |
+   |   |   "projectId" : "P3",   |          |                     |         |
+   |   |   "customerId" : "123"  |          |                     |         |
+   |   | }'                      |          |                     |         |
+   | 4 | '{                      | 'NORMAL' | 'DO_NOTHING'        | Success |
+   |   |   "mmse" : 20,          |          |                     |         |
+   |   |   "projectId" : "P4",   |          |                     |         |
+   |   |   "customerId" : "123"  |          |                     |         |
+   |   | }'                      |          |                     |         |
 ```
 
 ![HTML Report](docs/jgiven-html-report.png)

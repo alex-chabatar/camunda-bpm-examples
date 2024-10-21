@@ -1,6 +1,6 @@
 package org.camunda.bpm.examples.custom.dmn.process;
 
-import static org.camunda.bpm.examples.custom.dmn.ProcessConstants.TEST_DECISION_CONTAINS_ANY_OF;
+import static org.camunda.bpm.examples.custom.dmn.ProcessConstants.*;
 
 import org.camunda.bpm.examples.custom.dmn.process.scenario.*;
 import org.camunda.bpm.examples.custom.dmn.spring.AbstractSpringTest;
@@ -16,8 +16,10 @@ class DeploymentTest extends AbstractSpringTest<DecisionGiven<?>, DecisionWhen<?
         .a_decision_engine();
 
     then()
-        .deployed_decision_definitions(1)
-        .deployed_decision_definition(TEST_DECISION_CONTAINS_ANY_OF);
+        .deployed_decision_definitions(3)
+        .deployed_decision_definition(TEST_DECISION_CONTAINS_ANY_OF)
+        .deployed_decision_definition(TEST_DECISION_DATE_TIME)
+        .deployed_decision_definition(TEST_DECISION_JSON);
 
   }
 

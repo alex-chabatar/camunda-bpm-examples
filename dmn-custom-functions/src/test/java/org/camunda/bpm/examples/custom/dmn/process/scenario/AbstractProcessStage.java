@@ -1,5 +1,7 @@
 package org.camunda.bpm.examples.custom.dmn.process.scenario;
 
+import java.util.Date;
+
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.test.TestHelper;
 import org.camunda.bpm.examples.custom.dmn.utils.WorkflowHelper;
@@ -15,6 +17,14 @@ public abstract class AbstractProcessStage<SELF extends AbstractProcessStage<SEL
 
   @Autowired
   protected WorkflowHelper workflowHelper;
+
+  protected Date setClock(Date nextCurrentTime, boolean waitForJobExecutorToProcessAllJobs) {
+    workflowHelper.setWorkflowCurrentTime(nextCurrentTime);
+    if (waitForJobExecutorToProcessAllJobs) {
+      waitForJobExecutorToProcessAllJobs();
+    }
+    return workflowHelper.getWorkflowCurrentTime();
+  }
 
   protected void waitForJobExecutorToProcessAllJobs() {
     waitForJobExecutorToProcessAllJobs(60 * 1000L, 25L);

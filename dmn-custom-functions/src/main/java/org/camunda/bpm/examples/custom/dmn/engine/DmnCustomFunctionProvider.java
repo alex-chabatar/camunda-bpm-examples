@@ -1,13 +1,19 @@
 package org.camunda.bpm.examples.custom.dmn.engine;
 
 import static java.util.stream.Collectors.toSet;
+import static org.camunda.bpm.examples.custom.dmn.utils.DateUtils.*;
 import static org.camunda.bpm.examples.custom.dmn.utils.JsonHelper.fromJSONArray;
+import static org.camunda.bpm.examples.custom.dmn.utils.JsonHelper.jsonToMap;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Stream;
 
 import org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunction;
 import org.camunda.bpm.dmn.feel.impl.scala.function.FeelCustomFunctionProvider;
+import org.camunda.bpm.engine.impl.util.ClockUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
@@ -23,25 +29,18 @@ public class DmnCustomFunctionProvider implements FeelCustomFunctionProvider {
 
   private static final String CONTAINS_ANY_OF = "containsAnyOf"; // containsAnyOfEquals/Like?
 
-//  private static final String WORKFLOW_TIME = "workflow time"; // workflow time()
-//
-//  private static final String DAY_OF_MONTH = "day of month"; // day of month(workflow time())
-//  private static final String DAYS_BETWEEN = "days between"; // days between(ts, workflow time())
-//
-//  private static final String JSON = "json"; // json(?)
-//  private static final String JSON_VALUE = "json value"; // json value(?, 'key1')
-//  private static final String JSON_LIST = "json list"; // json list(?)
-//  private static final String JSON_LIST_VALUES = "json list values"; // json list values(?, 'key1')
+  private static final String WORKFLOW_TIME = "workflow time"; // workflow time()
+  private static final String DAY_OF_MONTH = "day of month"; // day of month(workflow time())
+  private static final String DAYS_BETWEEN = "days between"; // days between(ts, workflow time())
+
+  private static final String JSON_VALUE = "json value"; // json value(?, 'key1')
 
   public DmnCustomFunctionProvider() {
     FUNCTIONS.put(CONTAINS_ANY_OF, containsAnyOf());
-//    FUNCTIONS.put(WORKFLOW_TIME, workflowTime());
-//    FUNCTIONS.put(DAY_OF_MONTH, dayOfMonth());
-//    FUNCTIONS.put(DAYS_BETWEEN, daysBetween());
-//    FUNCTIONS.put(JSON, json());
-//    FUNCTIONS.put(JSON_VALUE, jsonValue());
-//    FUNCTIONS.put(JSON_LIST, jsonList());
-//    FUNCTIONS.put(JSON_LIST_VALUES, jsonListValues());
+    FUNCTIONS.put(WORKFLOW_TIME, workflowTime());
+    FUNCTIONS.put(DAY_OF_MONTH, dayOfMonth());
+    FUNCTIONS.put(DAYS_BETWEEN, daysBetween());
+    FUNCTIONS.put(JSON_VALUE, jsonValue());
   }
 
   @Override
@@ -108,6 +107,68 @@ public class DmnCustomFunctionProvider implements FeelCustomFunctionProvider {
           }
           return false;
         }).build();
+  }
+
+  // Format: workflow time()
+  // Return: current workflow time
+  private CustomFunction workflowTime() {
+    return CustomFunction.create()
+        .setFunction(args -> getWorkflowCurrentTime())
+        .build();
+  }
+
+  // Format: day of month(Optional: date/date-time)
+  // Return: dayOfMonth
+  private CustomFunction dayOfMonth() {
+    return CustomFunction.create()
+        .enableVarargs()
+        .setFunction(args -> {
+          var dateTime = toLocalDateTime(getWorkflowCurrentTime());
+          if (!ObjectUtils.isEmpty(args) && args.get(0) != null) {
+            dateTime = (LocalDateTime) args.get(0);
+          }
+          return dateTime.getDayOfMonth();
+        })
+        .build();
+  }
+
+  // Format: days between(date/date-time, date/date-time)
+  // Return: daysBetween
+  private CustomFunction daysBetween() {
+    return CustomFunction.create()
+        .enableVarargs()
+        .setFunction(args -> {
+          var from = ((LocalDateTime) args.get(0)).withHour(0).withMinute(0).withSecond(0).withNano(0);
+          var to = ((LocalDateTime) args.get(1)).withHour(0).withMinute(0).withSecond(0).withNano(0);
+          var result = Stream.iterate(toDate(from), date -> dateInFutureFrom(date, 1, ChronoUnit.DAYS))
+              .takeWhile(date -> date.before(toDate(to)))
+              .toList();
+          return result.size();
+        })
+        .build();
+  }
+
+  // Format: json value(?, 'key1')
+  // Return: value object (String, Boolean, Integer, Long, Double, Date)
+  private CustomFunction jsonValue() {
+    return CustomFunction.create()
+        .enableVarargs()
+        .setFunction(args -> {
+          var json = (String) args.get(0);
+          var key = (String) args.get(1);
+          var defaultValue = args.size() > 2 ? args.get(2) : "";
+          try {
+            var map = jsonToMap(json);
+            return Optional.ofNullable(map.get(key)).orElse(defaultValue);
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        })
+        .build();
+  }
+
+  private Date getWorkflowCurrentTime() {
+    return ClockUtil.getCurrentTime();
   }
 
 }

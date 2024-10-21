@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_150xotw" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.28.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <decision id="Test_Decision_Json" name="Test Decision JSON">
+    <decisionTable id="DecisionTable_19clbuk" hitPolicy="FIRST">
+      <input id="Input_1" label="Project ID">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>json value(variables, "projectId")</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_17qp1sp" label="Variables (JSON)">
+        <inputExpression id="LiteralExpression_105zm2t" typeRef="string">
+          <text>variables</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1vp2gx0" label="Priority">
+        <inputExpression id="LiteralExpression_0ulvaxl" typeRef="string">
+          <text>priority</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Action" name="action" typeRef="string" />
+      <rule id="DecisionRule_0h1yz0i">
+        <inputEntry id="UnaryTests_0tpx0tx">
+          <text>"P1"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1lntrp5">
+          <text>json value(?, "customerId") in ["123"]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yx34bt">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_04by7bo">
+          <text>"START_NEW_PROCESS"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1y9udzy">
+        <inputEntry id="UnaryTests_0zi33al">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jlbe5n">
+          <text>json value(?, "mmse", 0) &gt; 24</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0495179">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0giphyv">
+          <text>"PUBSUB"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1o11o2d">
+        <inputEntry id="UnaryTests_0axzgdg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1a1u877">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00x8hai">
+          <text>"HIGH"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_19arf34">
+          <text>"EMAIL_AND_PUBSUB"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0h4dprg">
+        <description>Default</description>
+        <inputEntry id="UnaryTests_1syp6q5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1s1ewah">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06ycp4i">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1lgac6e">
+          <text>"DO_NOTHING"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Test_Decision_Json">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

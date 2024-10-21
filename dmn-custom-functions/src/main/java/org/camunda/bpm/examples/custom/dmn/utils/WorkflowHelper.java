@@ -1,5 +1,6 @@
 package org.camunda.bpm.examples.custom.dmn.utils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -76,6 +77,16 @@ public class WorkflowHelper {
   }
 
   // -- Clock
+
+  public Date getWorkflowCurrentTime() {
+    return ClockUtil.getCurrentTime();
+  }
+
+  public void setWorkflowCurrentTime(Date currentTime) {
+    var oldTime = getWorkflowCurrentTime();
+    log.debug("Current workflow time {} -> {}", oldTime, currentTime);
+    ClockUtil.setCurrentTime(currentTime);
+  }
 
   public void resetWorkflowCurrentTime() {
     ClockUtil.reset();
