@@ -13,8 +13,8 @@ abstract class AbstractCustomCmd<T> implements Command<T>, Serializable {
 
   protected String defaultOrDbSpecific(CommandContext commandContext, String queryId) {
 
-    ProcessEngineConfigurationImpl processEngineConfiguration = commandContext.getProcessEngineConfiguration();
-    String queryIdKey = String.join("_", queryId, processEngineConfiguration.getDatabaseType());
+    var processEngineConfiguration = commandContext.getProcessEngineConfiguration();
+    var queryIdKey = String.join("_", queryId, processEngineConfiguration.getDatabaseType());
 
     return processEngineConfiguration.getDbSqlSessionFactory().getSqlSessionFactory().getConfiguration()
         .getMappedStatementNames().stream()

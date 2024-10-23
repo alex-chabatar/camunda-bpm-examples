@@ -1,7 +1,7 @@
 # MyBatis Custom Mappings
-Camunda extension for Process/Task comments.
+Camunda extension demonstrating the way how to extend standard Camunda commands and API if something is missing.
 
-## Why
+## Why (for example process/task comments)
 * By default, you can only `create` comments for processes and tasks, not ~~update~~ or ~~delete~~. 
 * Also, while creating a comment, Camunda uses `currentTime()` to store it - there is no way to define ~~custom timestamp~~. This could be the issue if you want to migrate your processes with original timestamps.
 
