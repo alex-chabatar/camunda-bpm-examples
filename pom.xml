@@ -50,6 +50,7 @@
     <module>liquibase-schema</module>
     <module>mybatis-custom-mappings</module>
     <module>process-instance-migration</module>
+    <module>user-task-reminder</module>
   </modules>
 
   <dependencyManagement>

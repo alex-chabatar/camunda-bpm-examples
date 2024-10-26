@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1atcwm8" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.28.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_1j1rpr7">
+    <bpmn:participant id="Participant_TestProcess" name="Test Process" processRef="TestProcess" />
+    <bpmn:textAnnotation id="TextAnnotation_1trz2t8">
+      <bpmn:text>2025-04-01T12:00:00Z</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1vosq8r" associationDirection="None" sourceRef="UserTask_Reminders" targetRef="TextAnnotation_1trz2t8" />
+    <bpmn:textAnnotation id="TextAnnotation_16jm4op">
+      <bpmn:text>P10D</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0hg1one" associationDirection="None" sourceRef="UserTask_Reminders" targetRef="TextAnnotation_16jm4op" />
+    <bpmn:textAnnotation id="TextAnnotation_0gj45e6">
+      <bpmn:text>R3/PT10H</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_09sb9u7" associationDirection="None" sourceRef="UserTask_Reminders" targetRef="TextAnnotation_0gj45e6" />
+    <bpmn:textAnnotation id="TextAnnotation_08rpvkm">
+      <bpmn:text>0 0/5 * * * ?</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1n2x3cj" associationDirection="None" sourceRef="UserTask_Reminders" targetRef="TextAnnotation_08rpvkm" />
+  </bpmn:collaboration>
+  <bpmn:process id="TestProcess" name="Test Process" isExecutable="true">
+    <bpmn:startEvent id="Start_TestProcess">
+      <bpmn:outgoing>Flow_1g2f58r</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0j8avqt" messageRef="Message_3fus354" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1g2f58r" sourceRef="Start_TestProcess" targetRef="UserTask_Reminders" />
+    <bpmn:sequenceFlow id="Flow_05t8ovx" sourceRef="UserTask_Reminders" targetRef="End_TestProcess" />
+    <bpmn:userTask id="UserTask_Reminders" name="Task with Reminders" camunda:asyncBefore="true">
+      <bpmn:extensionElements>
+        <camunda:taskListener delegateExpression="${userTaskReminderTaskListener}" event="create">
+          <camunda:field name="reminderType">
+            <camunda:string>DATE</camunda:string>
+          </camunda:field>
+          <camunda:field name="reminderValue">
+            <camunda:string>2025-04-01T12:00:00Z</camunda:string>
+          </camunda:field>
+        </camunda:taskListener>
+        <camunda:taskListener delegateExpression="${userTaskReminderTaskListener}" event="create">
+          <camunda:field name="reminderType">
+            <camunda:string>DURATION</camunda:string>
+          </camunda:field>
+          <camunda:field name="reminderValue">
+            <camunda:string>P10D</camunda:string>
+          </camunda:field>
+        </camunda:taskListener>
+        <camunda:taskListener delegateExpression="${userTaskReminderTaskListener}" event="create">
+          <camunda:field name="reminderType">
+            <camunda:string>CYCLE</camunda:string>
+          </camunda:field>
+          <camunda:field name="reminderValue">
+            <camunda:string>R3/PT10H</camunda:string>
+          </camunda:field>
+        </camunda:taskListener>
+        <camunda:taskListener delegateExpression="${userTaskReminderTaskListener}" event="create">
+          <camunda:field name="reminderType">
+            <camunda:string>CYCLE</camunda:string>
+          </camunda:field>
+          <camunda:field name="reminderValue">
+            <camunda:string>0 0/5 * * * ?</camunda:string>
+          </camunda:field>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1g2f58r</bpmn:incoming>
+      <bpmn:outgoing>Flow_05t8ovx</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="End_TestProcess">
+      <bpmn:incoming>Flow_05t8ovx</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_3fus354" name="TestProcess" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1j1rpr7">
+      <bpmndi:BPMNShape id="Participant_030dyx1_di" bpmnElement="Participant_TestProcess" isHorizontal="true">
+        <dc:Bounds x="161" y="80" width="409" height="230" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0nomt6s_di" bpmnElement="Start_TestProcess">
+        <dc:Bounds x="233" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0k82ls7_di" bpmnElement="UserTask_Reminders">
+        <dc:Bounds x="330" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0rrthlv_di" bpmnElement="End_TestProcess">
+        <dc:Bounds x="492" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1g2f58r_di" bpmnElement="Flow_1g2f58r">
+        <di:waypoint x="269" y="200" />
+        <di:waypoint x="330" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05t8ovx_di" bpmnElement="Flow_05t8ovx">
+        <di:waypoint x="430" y="200" />
+        <di:waypoint x="492" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1vosq8r_di" bpmnElement="Association_1vosq8r">
+        <di:waypoint x="417" y="160" />
+        <di:waypoint x="439" y="137" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0hg1one_di" bpmnElement="Association_0hg1one">
+        <di:waypoint x="351" y="160" />
+        <di:waypoint x="336" y="139" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_09sb9u7_di" bpmnElement="Association_09sb9u7">
+        <di:waypoint x="353" y="240" />
+        <di:waypoint x="340" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1n2x3cj_di" bpmnElement="Association_1n2x3cj">
+        <di:waypoint x="412" y="240" />
+        <di:waypoint x="428" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1trz2t8_di" bpmnElement="TextAnnotation_1trz2t8">
+        <dc:Bounds x="400" y="110" width="154" height="27" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_16jm4op_di" bpmnElement="TextAnnotation_16jm4op">
+        <dc:Bounds x="300" y="109" width="50" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0gj45e6_di" bpmnElement="TextAnnotation_0gj45e6">
+        <dc:Bounds x="280" y="260" width="100" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_08rpvkm_di" bpmnElement="TextAnnotation_08rpvkm">
+        <dc:Bounds x="390" y="260" width="100" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

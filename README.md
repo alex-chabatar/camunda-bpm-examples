@@ -7,6 +7,7 @@ Various examples for Camunda Platform 7.
 * [Liquibase Schema](liquibase-schema/README.md) - Manage Camunda Database Schema updates automatically with Liquibase
 * [MyBatis Custom Mappings](mybatis-custom-mappings/README.md) - Camunda extension for Process/Task comments
 * [Process Instance Migration](process-instance-migration/README.md) - Camunda extension to schedule Migration batch on application start
+* [User Task Reminder](user-task-reminder/README.md) - BPMN Process implementing generic 'User Task Reminder' functionality and 'Task Listener' to configure reminder for any specific task
 
 ## Build and Run
 * Required: Java 17
