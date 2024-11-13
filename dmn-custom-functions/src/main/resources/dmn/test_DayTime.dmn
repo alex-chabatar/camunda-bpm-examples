@@ -4,12 +4,12 @@
     <decisionTable id="DecisionTable_15jnqin" hitPolicy="FIRST">
       <input id="Input_1" label="Day of Month">
         <inputExpression id="InputExpression_1" typeRef="integer">
-          <text>day of month(workflow time())</text>
+          <text>workflow time().day</text>
         </inputExpression>
       </input>
       <input id="InputClause_1oto1gn" label="Days since last email sent">
         <inputExpression id="LiteralExpression_1vfklfr" typeRef="integer">
-          <text>days between(lastTimeEmailSent, workflow time())</text>
+          <text>(workflow time() - lastTimeEmailSent).days</text>
         </inputExpression>
       </input>
       <output id="Output_1" label="Send Reminder Email?" name="sendReminderEmail" typeRef="boolean" />

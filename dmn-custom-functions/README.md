@@ -20,16 +20,6 @@ Camunda extension to provide the set of additional FEEL functions for DMN.
 // Format: workflow time()
 // Return: current workflow time, not current date/time (important for Unit-tests)
 ```
-* `day of month`
-```java
-// Format: day of month(Optional: date/date-time)
-// Return: dayOfMonth
-```
-* `days between`
-```java
-// Format: days between(date/date-time, date/date-time)
-// Return: daysBetween
-```
 ![DMN](docs/dateTime.png)
 * `json value`
 ```java
